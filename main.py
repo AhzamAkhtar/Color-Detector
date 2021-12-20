@@ -4,6 +4,7 @@ import numpy as np
 import pyautogui
 capture=cv.VideoCapture(0)
 prev_y=0
+prev_x=0
 while True:
     ret,frame=capture.read()
     hsv=cv.cvtColor(frame,cv.COLOR_BGR2HSV)
@@ -19,13 +20,17 @@ while True:
             if y<prev_y:
 
                 # by pressing space inst,tiktok scroll down
-                pyautogui.press("space")
+                #pyautogui.press("space")
+                pyautogui.press("down")
             prev_y=y
+            '''if x<prev_x:
+                pyautogui.press("up")
+            prev_x=x'''
             #cv.drawContours(frame,c, -1, (0, 255, 0), 2)
     #cv.drawContours(frame,contours,-1,(0,255,0),2)
     cv.imshow("frame",frame)
     #cv.imshow("yellow",mask)
-    if cv.waitKey(10)==ord("q"):
+    if cv.waitKey(30)==ord("q"):
         break
 capture.release()
 cv.destroyAllWindows()
