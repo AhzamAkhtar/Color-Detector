@@ -4,12 +4,13 @@ import numpy as np
 import pyautogui
 capture=cv.VideoCapture(0)
 prev_y=0
-prev_x=0
 while True:
     ret,frame=capture.read()
     hsv=cv.cvtColor(frame,cv.COLOR_BGR2HSV)
     mask=cv.inRange(hsv,(36,25,25),(70,255,255))
+    mask_2=cv.inRange(hsv,(22,93,0),(45,255,255))
     contours,h=cv.findContours(mask,cv.RETR_EXTERNAL,cv.CHAIN_APPROX_SIMPLE)
+    countours_2,he=cv.findContours(mask_2,cv.RETR_TREE,cv.CHAIN_APPROX_SIMPLE)
     for c in contours:
         area=cv.contourArea(c)
         if area>300:
@@ -23,9 +24,13 @@ while True:
                 #pyautogui.press("space")
                 pyautogui.press("down")
             prev_y=y
-            '''if x<prev_x:
+    for c2 in countours_2:
+        area_2=cv.contourArea(c2)
+        if area_2>300:
+            x1,y1,w1,h1=cv.boundingRect(c2)
+            cv.rectangle(frame,(x1,y1),(x1+w1,y1+h1),(0,255,0),2)
+            if y1<prev_y:
                 pyautogui.press("up")
-            prev_x=x'''
             #cv.drawContours(frame,c, -1, (0, 255, 0), 2)
     #cv.drawContours(frame,contours,-1,(0,255,0),2)
     cv.imshow("frame",frame)
